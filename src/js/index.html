@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS</title>
+</head>
+<body>
+JS
+
+<script src="../../node_modules/systemjs/dist/system.src.js"></script>
+<script>
+  SystemJS.config({
+    defaultJSExtensions: true,
+    paths: {
+      'babel-runtime/*': '../../node_modules/babel-runtime/*',
+      'core-js/*': '../../node_modules/core-js/*'
+    }
+  });
+  SystemJS.import('../../dist/src/js/main.js');
+</script>
+<!--<script src="../../dist/js/bundle.js"></script>-->
+</body>
+</html>
