@@ -1,7 +1,3 @@
-let typescriptPlugin = require('rollup-plugin-typescript');
-let nodeResolvePlugin = require('rollup-plugin-node-resolve');
-let typescript = require('typescript/lib/typescript');
-
 module.exports = function(config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -10,13 +6,14 @@ module.exports = function(config) {
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: [
-      'jasmine'
+      'jasmine',
+      'karma-typescript'
     ],
 
     plugins: [
       'karma-chrome-launcher',
       'karma-jasmine',
-      'karma-rollup-preprocessor'
+      'karma-typescript'
     ],
 
     // list of files / patterns to load in the browser
@@ -30,28 +27,16 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/ts/**/*.ts': ['rollup']
-    },
-
-    rollupPreprocessor: {
-      // rollup settings. See Rollup documentation
-      plugins: [,
-        typescriptPlugin({
-          typescript: typescript,
-          importHelpers: true
-        }),
-        nodeResolvePlugin()
-      ],
-      // will help to prevent conflicts between different tests entries
-      sourceMap: 'inline',
-      format: 'iife',
-      moduleName: 'main'
+      'src/ts/**/*.ts': ['karma-typescript']
     },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: [
+      'progress',
+      'karma-typescript'
+    ],
 
     // web server port
     port: 9876,
@@ -61,7 +46,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_INFO,
 
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
