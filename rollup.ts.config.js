@@ -1,4 +1,5 @@
 import typescriptPlugin from 'rollup-plugin-typescript';
+import nodeResolvePlugin from 'rollup-plugin-node-resolve';
 import typescript from 'typescript/lib/typescript';
 
 export default {
@@ -9,7 +10,9 @@ export default {
   moduleName: 'main',
   plugins: [
     typescriptPlugin({
-      typescript: typescript
-    })
+      typescript: typescript,
+      importHelpers: true
+    }),
+    nodeResolvePlugin()
   ]
 };
