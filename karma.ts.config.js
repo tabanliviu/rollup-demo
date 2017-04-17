@@ -1,84 +1,79 @@
-let babel = require('rollup-plugin-babel');
+let typescriptPlugin = require('rollup-plugin-typescript');
+let nodeResolvePlugin = require('rollup-plugin-node-resolve');
+let typescript = require('typescript/lib/typescript');
 
 module.exports = function(config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
-    
+
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
-    
+    frameworks: [
+      'jasmine'
+    ],
+
+    plugins: [
+      'karma-chrome-launcher',
+      'karma-jasmine',
+      'karma-rollup-preprocessor'
+    ],
+
     // list of files / patterns to load in the browser
     files: [
-      'src/js/**/*.js'
+      'src/ts/**/*.ts'
     ],
-    
+
     // list of files to exclude
     exclude: [],
-    
+
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/js/**/*.js': ['rollup']
+      'src/ts/**/*.ts': ['rollup']
     },
-  
+
     rollupPreprocessor: {
       // rollup settings. See Rollup documentation
-      plugins: [
-        babel()
+      plugins: [,
+        typescriptPlugin({
+          typescript: typescript,
+          importHelpers: true
+        }),
+        nodeResolvePlugin()
       ],
       // will help to prevent conflicts between different tests entries
-      format: 'umd',
-      moduleName: 'main',
-      sourceMap: 'inline'
+      sourceMap: 'inline',
+      format: 'iife',
+      moduleName: 'main'
     },
-    
-    // babelPreprocessor: {
-    //   options: {
-    //     presets: ['es2015'],
-    //     plugins: [
-    //       'external-helpers',
-    //       'transform-decorators-legacy',
-    //       'transform-runtime',
-    //       'transform-es2015-modules-commonjs'
-    //     ],
-    //     sourceMap: 'inline'
-    //   },
-    //   filename: function(file) {
-    //     return file.originalPath.replace(/\.js$/, '.es5.js');
-    //   },
-    //   sourceFileName: function(file) {
-    //     return file.originalPath;
-    //   }
-    // },
-    
+
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['progress'],
-    
+
     // web server port
     port: 9876,
-    
+
     // enable / disable colors in the output (reporters and logs)
     colors: true,
-    
+
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
-    
+    logLevel: config.LOG_DEBUG,
+
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
-    
+
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['Chrome'],
-    
+
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: true,
-    
+
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
